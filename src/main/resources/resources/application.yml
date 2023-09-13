@@ -1,0 +1,11 @@
+spring:
+    datasource:
+        url: ${SPRING_DATASOURCE_URL}
+        username: ${SPRING_DATASOURCE_USERNAME}
+        password: ${SPRING_DATASOURCE_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+profiles:
+    active: local
+    group:
+        local: logging-type-condole, logging-level-local
+        dev: logging-type-file, logging-level-dev
