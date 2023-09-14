@@ -52,15 +52,21 @@ class LoggingAspect {
     private fun generateLoggingContextByHttpRequest(joinPoint: JoinPoint): HashMap<String, String> {
         val requestAttributes = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
         val request = requestAttributes.request
+
+        // request 정보
         val requestURI = request.requestURI
         val httpMethod = request.method
         val body = JSONObject(request.parameterMap).toString()
 
+        // 기본 공통 로그
         val httpGenerateLoggingContext: HashMap<String, String> = generateLoggingContext(joinPoint)
+
+
+
         httpGenerateLoggingContext.putAll(
-            hashMapOf<String, String>(
-                "Header" to request.headerNames.toString(),
-                "RequestURI" to requestURI,
+            hashMapOf(
+                "Header" to request.headerNames.toList().joinToString(","),
+                "Path" to requestURI,
                 "HttpMethod" to httpMethod,
                 "Body" to body,
             )
