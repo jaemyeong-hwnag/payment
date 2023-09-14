@@ -14,4 +14,8 @@ class UserService (
     fun addUser(userDto: UserDto) {
         userRepository.save(modelMapper.map(userDto, User::class.java))
     }
+
+    fun updateUser() {
+        // userRepository.
+    }
 }

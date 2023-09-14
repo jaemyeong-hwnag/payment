@@ -1,4 +1,4 @@
-package com.hjm.payment.common.aspect
+package com.hjm.payment.global.common.aspect
 
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.After

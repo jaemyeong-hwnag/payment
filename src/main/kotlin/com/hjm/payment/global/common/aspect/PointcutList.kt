@@ -1,10 +1,10 @@
-package com.hjm.payment.common.aspect
+package com.hjm.payment.global.common.aspect
 
 import org.aspectj.lang.annotation.Pointcut
 
 
 class PointcutList {
-    @Pointcut("execution(public * com.hjm.payment.*.controller.*.*(..)))\"")
+    @Pointcut("execution(* com.hjm.payment.domain..controller.*.*(..)))")
     fun allController() {
     }
 
