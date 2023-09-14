@@ -1,7 +1,12 @@
 # 결제
 
 실행 명령어
-```docker compose up```
+```
+   chmod +x gradlew && 
+   ./gradlew clean &&
+   ./gradlew build -x test &&
+   docker compose up
+```
 
 ### 스펙
 JDK 17, spring-boot 3.1, mysql 8.0, querydsl, kotlin 1.8
