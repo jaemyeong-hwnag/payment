@@ -52,6 +52,14 @@ dependencies {
     implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
 
     implementation("org.modelmapper:modelmapper:2.4.4")
+
+    // security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+    // jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.2")
 }
 
 configurations.forEach {
