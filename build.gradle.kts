@@ -5,7 +5,8 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"
     kotlin("jvm") version "1.8.22"
     kotlin("plugin.spring") version "1.8.22"
-    kotlin("plugin.jpa") version "1.7.22"
+    kotlin("plugin.jpa") version "1.8.22"
+    kotlin("kapt") version "1.8.22"
     idea
 }
 
@@ -49,11 +50,12 @@ dependencies {
     testImplementation("com.ninja-squad:springmockk:3.0.1")
 
     // QueryDSL
-    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
 
     implementation("org.modelmapper:modelmapper:2.4.4")
 
     // security
+    implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
     // jwt
