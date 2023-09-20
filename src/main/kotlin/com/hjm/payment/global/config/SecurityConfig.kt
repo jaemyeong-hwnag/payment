@@ -40,7 +40,9 @@ class SecurityConfig {
                 it.anyRequest().authenticated()
             }
             .formLogin {
-                it.successForwardUrl("/")
+                it
+                    .loginProcessingUrl("/user/login")
+                    .successForwardUrl("/")
             }
 
         return http.build()
@@ -50,7 +52,7 @@ class SecurityConfig {
     fun logout(http: HttpSecurity): SecurityFilterChain =
         http
             .logout {
-                it.logoutSuccessUrl("/login")
+                it.logoutSuccessUrl("/user/login")
             }
             .build()
 }

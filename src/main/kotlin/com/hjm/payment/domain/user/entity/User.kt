@@ -17,7 +17,7 @@ class User (
     val userId: Long,
     @Column(name = "user_name", nullable = false)
     val userName: String,
-    @Column(name = "account", nullable = false)
+    @Column(name = "account", nullable = false, unique = true)
     val account: String,
     @Column(name = "use_yn", nullable = true)
     val useYn: UseYn,
