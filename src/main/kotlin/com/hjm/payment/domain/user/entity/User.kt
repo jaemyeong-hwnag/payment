@@ -13,13 +13,15 @@ import java.util.Date
 class User (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false)
-    val userId: Long,
+    @Column(name = "id", nullable = false)
+    val id: Long,
     @Column(name = "user_name", nullable = false)
     val userName: String,
     @Column(name = "account", nullable = false, unique = true)
     val account: String,
-    @Column(name = "use_yn", nullable = true)
+    @Column(name = "password", nullable = false)
+    val password: String,
+    @Column(name = "use_yn", nullable = false)
     val useYn: UseYn,
     @Column(name = "create_at", nullable = true)
     val createAt: Date,
