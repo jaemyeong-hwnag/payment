@@ -3,6 +3,7 @@ package com.hjm.payment.domain.user.controller
 import com.hjm.payment.domain.user.dto.LoginUserDto
 import com.hjm.payment.domain.user.dto.UserDto
 import com.hjm.payment.domain.user.service.UserService
+import com.hjm.payment.global.dto.ResponseDto
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
@@ -10,16 +11,17 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/user")
 class UserController(
-    private val userService: UserService
+    val userService: UserService
 ) {
     @GetMapping("/{userId}")
     fun findUser(@PathVariable userId: Long): String {
         return "유저 정보 $userId"
     }
 
-    @PostMapping("/creat")
-    fun creatUser(@RequestBody userDto: UserDto) {
+    @PostMapping("/signup")
+    fun signup(@RequestBody userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
         userService.addUser(userDto)
+        return ResponseEntity.ok(ResponseDto())
     }
 
     @PostMapping("/login")
