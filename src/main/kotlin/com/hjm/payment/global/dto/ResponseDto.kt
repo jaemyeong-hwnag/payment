@@ -1,8 +1,8 @@
 package com.hjm.payment.global.dto
 
-data class ResponseDto(
-    val result: Boolean? = true,
-    val message: String? = "Success",
-    val data: T,
-
+data class ResponseDto<T>(
+    var result: Boolean = true,
+    var message: String = "Success",
+    val data: T? = null,
+    val dataList: List<T>? = null,
 )
