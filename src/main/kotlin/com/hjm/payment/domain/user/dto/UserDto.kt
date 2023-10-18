@@ -7,7 +7,7 @@ data class UserDto(
     val id: Long?,
     val userName: String,
     val account: String,
-    val password: String,
+    var password: String,
     val useYn: UseYn?,
     val createAt: Date?,
     val updateAt: Date?,

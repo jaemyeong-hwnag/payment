@@ -12,54 +12,35 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig {
     private val logger: Logger = LoggerFactory.getLogger(LoggingAspect::class.java)
-    private val allowedUrls = arrayOf("/join", "/login")
+    private val allowedUrls = arrayOf("/user/signup", "/user/login", "/auth/get-token", "/actuator/health")
 
     @Order(1)
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .csrf {} //  CSRF(교차 사이트 요청 위조)
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }    // 세션을 사용하지 않으므로 STATELESS 설정
             .authorizeHttpRequests {
-                it.requestMatchers(* allowedUrls).permitAll()    // requestMatchers의 인자로 전달된 url은 모두에게 허용
-                    .anyRequest().authenticated() // 그 외의 모든 요청은 인증 필요
+                it
+                    .requestMatchers(* allowedUrls).permitAll()    // requestMatchers의 인자로 전달된 url은 모두에게 허용
+                    .anyRequest().authenticated() // 모든 요청은 인증 필요
             }
             .formLogin(withDefaults())
-            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }    // 세션을 사용하지 않으므로 STATELESS 설정
 
         return http.build()!!
     }
 
     @Bean
-    fun formLoginFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http
-            .authorizeHttpRequests {
-                it.anyRequest().authenticated()
-            }
-            .formLogin {
-                it
-                    .loginProcessingUrl("/user/login")
-                    .successForwardUrl("/")
-            }
-
-        return http.build()
-    }
+    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager =
+        authenticationConfiguration.authenticationManager
 
     @Bean
-    fun logout(http: HttpSecurity): SecurityFilterChain =
-        http
-            .logout {
-                it.logoutSuccessUrl("/user/login")
-            }
-            .build()
-
-    @Bean
-    fun authenticationManager(authenticationConfiguration: AuthenticationConfiguration): AuthenticationManager {
-        return authenticationConfiguration.authenticationManager
-    }
+    fun passwordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
 }

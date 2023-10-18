@@ -20,7 +20,7 @@ class UserController(
 
     @PostMapping("/signup")
     fun signup(@RequestBody userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
-        userService.addUser(userDto)
+        userService.signUpUser(userDto)
         return ResponseEntity.ok(ResponseDto())
     }
 

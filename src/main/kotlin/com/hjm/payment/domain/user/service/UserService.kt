@@ -8,16 +8,21 @@ import com.hjm.payment.domain.user.util.JwtUtils
 import org.modelmapper.ModelMapper
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional
 class UserService(
     private val userRepository: UserRepository,
     private val modelMapper: ModelMapper,
     private val authenticationManager: AuthenticationManager,
-    private val jwtUtils: JwtUtils
+    private val jwtUtils: JwtUtils,
+    private val passwordEncoder: PasswordEncoder,
 ) {
-    fun addUser(userDto: UserDto) {
+    fun signUpUser(userDto: UserDto) {
+        userDto.password = passwordEncoder.encode(userDto.password)
         userRepository.save(modelMapper.map(userDto, User::class.java))
     }
 

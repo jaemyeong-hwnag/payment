@@ -21,8 +21,8 @@ class User (
     val account: String,
     @Column(name = "password", nullable = false)
     val password: String,
-    @Column(name = "use_yn", nullable = false)
-    val useYn: UseYn,
+    @Column(name = "use_yn", nullable = true)
+    val useYn: UseYn = UseYn.USED,
     @Column(name = "create_at", nullable = true)
     val createAt: Date,
     @Column(name = "update_at", nullable = true)
