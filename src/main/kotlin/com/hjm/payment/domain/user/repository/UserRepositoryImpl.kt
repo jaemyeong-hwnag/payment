@@ -15,4 +15,11 @@ class UserRepositoryImpl(val jpaQueryFactory: JPAQueryFactory): UserRepositoryCu
             .where(user.userName.eq(userName))
             .fetchFirst()
     }
+
+    override fun findByUserAccount(userAccount: String): User? {
+        return jpaQueryFactory
+            .selectFrom(user)
+            .where(user.account.eq(userAccount))
+            .fetchFirst()
+    }
 }
