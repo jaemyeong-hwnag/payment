@@ -32,7 +32,14 @@ class UserService(
         userRepository.save(modelMapper.map(userDto, User::class.java))
     }
 
-    fun loginUser(loginUserDto: LoginUserDto): String {
+    fun loginUser(account: String, password: String): String {
+        val password = passwordEncoder.encode(password)
+
+        if (userRepository.findByAccountAndPassword(account, password) == null) {
+            throw GlobalException(UserErrorCode.UNAUTHENTICATED)
+        }
+
+
         // 인증시도
         authenticationManager.authenticate(
             UsernamePasswordAuthenticationToken(loginUserDto.account, "test", null)

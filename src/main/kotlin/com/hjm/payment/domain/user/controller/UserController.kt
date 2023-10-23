@@ -26,8 +26,8 @@ class UserController(
 
     @PostMapping("/login")
     fun loginUser(
-        @RequestBody loginUserDto: LoginUserDto,
-        encoder: PasswordEncoder
-    ): ResponseEntity<String> = ResponseEntity.ok().body(userService.loginUser(loginUserDto))
+        @RequestBody account: String,
+        @RequestBody password: String,
+    ): ResponseEntity<String> = ResponseEntity.ok().body(userService.loginUser(account, password))
 
 }

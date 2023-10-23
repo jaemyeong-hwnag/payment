@@ -2,6 +2,7 @@ package com.hjm.payment.domain.user.repository
 
 import com.hjm.payment.domain.user.entity.QUser
 import com.hjm.payment.domain.user.entity.User
+import com.hjm.payment.global.common.UseYn
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
@@ -16,10 +17,19 @@ class UserRepositoryImpl(val jpaQueryFactory: JPAQueryFactory): UserRepositoryCu
             .fetchFirst()
     }
 
-    override fun findByUserAccount(userAccount: String): User? {
+    override fun findByUserAccount(account: String): User? {
         return jpaQueryFactory
             .selectFrom(user)
-            .where(user.account.eq(userAccount))
+            .where(user.account.eq(account))
+            .fetchFirst()
+    }
+
+    override fun findByAccountAndPassword(account: String, password: String): User? {
+        return jpaQueryFactory
+            .selectFrom(user)
+            .where(
+                user.account.eq(account), user.password.eq(password), user.useYn.eq(UseYn.USED)
+            )
             .fetchFirst()
     }
 }
