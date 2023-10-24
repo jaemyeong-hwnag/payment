@@ -19,9 +19,9 @@ class UserController(
     }
 
     @PostMapping("/signup")
-    fun signup(@RequestBody userDto: UserDto): ResponseEntity<ResponseDto<UserDto>> {
+    fun signup(@RequestBody userDto: UserDto): ResponseEntity<SuccessResponseDto<UserDto>> {
         userService.signUpUser(userDto)
-        return ResponseEntity.ok(ResponseDto())
+        return ResponseEntity.ok(SuccessResponseDto())
     }
 
     @PostMapping("/login")
