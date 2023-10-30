@@ -1,4 +1,4 @@
-package com.hjm.payment.global.dto
+package com.hjm.payment.app.api.common.dto
 
 import org.springframework.http.HttpStatus
 
