@@ -85,13 +85,25 @@ tasks.withType<Test>().configureEach {
     }
 }
 
-// QClass를 Intellij가 사용할 수 있도록 경로에 추가합니다
-// ./gradlew clean compileKotlin - QClass를 생성 명령어
-idea {
-    module {
-        val kaptMain = file("build/generated/source/kapt/main")
-        sourceDirs.add(kaptMain)
-        generatedSourceDirs.add(kaptMain)
+/**
+ * QueryDSL Build Options
+ */
+val querydslFile = file("build/generated/source/kapt/main")
+
+sourceSets {
+    idea.module {
+        sourceDirs.add(querydslFile)
+        generatedSourceDirs.add(querydslFile)
+    }
+}
+
+tasks.compileJava {
+    options.generatedSourceOutputDirectory = querydslFile
+}
+
+tasks.clean {
+    doLast {
+        querydslFile.deleteRecursively()
     }
 }
 
