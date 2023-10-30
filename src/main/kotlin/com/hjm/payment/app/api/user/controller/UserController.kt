@@ -1,11 +1,9 @@
-package com.hjm.payment.domain.user.controller
+package com.hjm.payment.app.api.user.controller
 
-import com.hjm.payment.domain.user.dto.LoginUserDto
 import com.hjm.payment.domain.user.dto.UserDto
 import com.hjm.payment.domain.user.service.UserService
-import com.hjm.payment.global.dto.ResponseDto
+import com.hjm.payment.app.api.common.dto.SuccessResponseDto
 import org.springframework.http.ResponseEntity
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -23,11 +21,4 @@ class UserController(
         userService.signUpUser(userDto)
         return ResponseEntity.ok(SuccessResponseDto())
     }
-
-    @PostMapping("/login")
-    fun loginUser(
-        @RequestBody account: String,
-        @RequestBody password: String,
-    ): ResponseEntity<String> = ResponseEntity.ok().body(userService.loginUser(account, password))
-
 }

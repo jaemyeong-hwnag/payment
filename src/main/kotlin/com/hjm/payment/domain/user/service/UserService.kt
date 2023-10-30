@@ -1,15 +1,12 @@
 package com.hjm.payment.domain.user.service
 
-import com.hjm.payment.domain.user.dto.LoginUserDto
 import com.hjm.payment.domain.user.dto.UserDto
 import com.hjm.payment.domain.user.entity.User
 import com.hjm.payment.domain.user.enums.UserErrorCode
 import com.hjm.payment.domain.user.repository.UserRepository
-import com.hjm.payment.domain.user.util.JwtUtils
 import com.hjm.payment.global.exception.GlobalException
 import org.modelmapper.ModelMapper
 import org.springframework.security.authentication.AuthenticationManager
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,7 +17,6 @@ class UserService(
     private val userRepository: UserRepository,
     private val modelMapper: ModelMapper,
     private val authenticationManager: AuthenticationManager,
-    private val jwtUtils: JwtUtils,
     private val passwordEncoder: PasswordEncoder,
 ) {
     fun signUpUser(userDto: UserDto) {
@@ -32,22 +28,11 @@ class UserService(
         userRepository.save(modelMapper.map(userDto, User::class.java))
     }
 
-    fun loginUser(account: String, password: String): String {
+    fun loginUser(account: String, password: String) {
         val password = passwordEncoder.encode(password)
 
         if (userRepository.findByAccountAndPassword(account, password) == null) {
             throw GlobalException(UserErrorCode.UNAUTHENTICATED)
         }
-
-
-        // 인증시도
-        authenticationManager.authenticate(
-            UsernamePasswordAuthenticationToken(loginUserDto.account, "test", null)
-        )
-
-        // 토큰 생성
-        val token = jwtUtils.createToken(loginUserDto.account)
-
-        return token
     }
 }
