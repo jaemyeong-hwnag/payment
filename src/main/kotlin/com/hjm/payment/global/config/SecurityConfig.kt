@@ -16,10 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 class SecurityConfig {
     private val logger: Logger = LoggerFactory.getLogger(LoggingAspect::class.java)
-    private val allowedUrls = arrayOf("/user/signup", "/user/login", "/auth/get-token", "/actuator/health")
+    private val allowedUrls = arrayOf("/auth/get-token", "/actuator/health", "/error")
 
     @Order(1)
     @Bean
