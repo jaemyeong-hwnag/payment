@@ -21,7 +21,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @Configuration
 @EnableWebSecurity(debug = true)
 class SecurityConfig(
-    val jwtAuthenticationFilter: JwtAuthenticationFilter
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter
 ) {
     private val logger: Logger = LoggerFactory.getLogger(LoggingAspect::class.java)
     private val allowedUrls = arrayOf("/auth/get-token", "/actuator/health", "/error")
