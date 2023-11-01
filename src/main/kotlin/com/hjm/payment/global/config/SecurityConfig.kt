@@ -1,6 +1,8 @@
 package com.hjm.payment.global.config
 
+import com.hjm.payment.app.api.common.filter.JwtAuthenticationFilter
 import com.hjm.payment.global.common.aspect.LoggingAspect
+import com.hjm.payment.global.util.JwtProvider
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
@@ -14,10 +16,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 
 @Configuration
 @EnableWebSecurity(debug = true)
-class SecurityConfig {
+class SecurityConfig(
+    val jwtAuthenticationFilter: JwtAuthenticationFilter
+) {
     private val logger: Logger = LoggerFactory.getLogger(LoggingAspect::class.java)
     private val allowedUrls = arrayOf("/auth/get-token", "/actuator/health", "/error")
 
@@ -32,6 +37,7 @@ class SecurityConfig {
                     .requestMatchers(* allowedUrls).permitAll()    // requestMatchers의 인자로 전달된 url은 모두에게 허용
                     .anyRequest().authenticated() // 모든 요청은 인증 필요
             }
+            .addFilterBefore(jwtAuthenticationFilter, BasicAuthenticationFilter::class.java)
             .formLogin(withDefaults())
 
         return http.build()!!
